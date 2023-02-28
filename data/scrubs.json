@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "John D. Dorian",
+    "img": "https://a1cf74336522e87f135f-2f21ace9a6cf0052456644b80fa06d4f.ssl.cf2.rackcdn.com/images/characters/large/2800/John-Dorian.Scrubs.webp",
+    "occupattion": "doctor",
+    "personality": "hugger",
+    "extend_perso": "sarcastic and sardonic, yet fairly innocent. J.D. has a tendency to daydream, which is a bad habit for a doctor working in a fast-paced ward. Despite his often immature behavior, he shows little patience when he finds his colleagues goofing off: \u0022The medical interns are having a Pac Man tournament. Apparently we\u0027re all 12.\u0022 But with his wit and work ethic, he\u0027ll likely find a way to succeed at Sacred Heart and in life."
+  },
+  {
+    "id": 2,
+    "name": "Percyval U. Cox",
+    "img": "https://a1cf74336522e87f135f-2f21ace9a6cf0052456644b80fa06d4f.ssl.cf2.rackcdn.com/images/characters/large/2800/Perry-Cox.Scrubs.webp",
+    "occupattion": "doctor",
+    "personality": "absolute truth",
+    "extend_perso": "sarcastic and rude. Dr. Cox says that he\u0027s “been trained for many years to take any emotion I feel, push it down, and then let it out by drinking way too much and yelling at the football players on my T.V. screen.” Still, things are just a lot livelier when Dr. Cox is around."
+  }
+]
