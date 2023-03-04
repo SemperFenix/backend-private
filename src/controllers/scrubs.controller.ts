@@ -2,12 +2,15 @@ import { NextFunction, Request, Response } from 'express';
 import { Scrub } from '../entities/scrubs.models.js';
 import { Repo } from '../repository/repo.interface.js';
 import createDebug from 'debug';
+import { HTTPError } from '../errors/errors.js';
+import { CustomRequest } from '../interceptors/logged.js';
+import { User } from '../entities/user.models.js';
 
-const debug = createDebug('W6B:controller');
+const debug = createDebug('W6B:ScrubsController');
 
 export class ScrubsController {
   // eslint-disable-next-line no-useless-constructor, no-unused-vars
-  constructor(public repo: Repo<Scrub>) {
+  constructor(public repo: Repo<Scrub>, public repoUsers: Repo<User>) {
     debug('instantiated');
   }
 
@@ -37,14 +40,21 @@ export class ScrubsController {
     }
   }
 
-  async post(req: Request, resp: Response, next: NextFunction) {
+  async post(req: CustomRequest, resp: Response, next: NextFunction) {
     try {
       debug('Post trying...');
+      const userId = req.info?.id;
+      if (!userId) throw new HTTPError(404, 'Not found', 'No user id');
+      const actualUser = await this.repoUsers.queryById(userId); // Repo throws error if not found
 
-      console.log(req.body);
-      const data = await this.repo.create(req.body);
+      req.body.owner = userId;
+      const newScrub = await this.repo.create(req.body);
+
+      // Opción para la relación bidireccional
+      actualUser.scrubs.push(newScrub);
+      await this.repoUsers.update(actualUser);
       // Cuando usamos then, la respuesta tiene que estar dentro del then
-      resp.json({ results: [data] });
+      resp.json({ results: [newScrub] });
       // Los métodos sólo deben devolver resp.json porque se lo estamos devolviendo a fetch, no al usuario
     } catch (error) {
       debug('Error posting');
@@ -55,11 +65,10 @@ export class ScrubsController {
 
   // Los métodos update y delete están hechos con async para utilizar ambas formas de resolver promesas
 
-  async patch(req: Request, resp: Response, next: NextFunction) {
+  async patch(req: CustomRequest, resp: Response, next: NextFunction) {
     try {
       debug('Patch trying...');
 
-      req.body.id = req.params.id ? req.params.id : req.body.id;
       const data = await this.repo.update(req.body);
       // Los métodos sólo deben devolver resp.json porque se lo estamos devolviendo a fetch, no al usuario
       resp.json({ results: [data] });

@@ -4,6 +4,7 @@ import cors from 'cors';
 import { scrubsRouter } from './routers/scrubs.router.js';
 import createDebug from 'debug';
 import { CustomError, HTTPError } from './errors/errors.js';
+import { usersRouter } from './routers/users.router.js';
 
 const debug = createDebug('W6B:App');
 
@@ -15,6 +16,12 @@ const corsOrigins = {
 };
 app.use(cors(corsOrigins)); // NOSONAR not using secure environment
 app.use(express.json());
+
+app.use('/favicon', express.static('public'));
+app.use('/users', usersRouter);
+
+app.use('/scrubs', scrubsRouter);
+
 app.use('/', (_req, resp) => {
   resp.json({
     info: 'Bootcamp ISDI APIs',
@@ -23,9 +30,7 @@ app.use('/', (_req, resp) => {
     },
   });
 });
-app.use('/favicon', express.static('public'));
 
-app.use('/scrubs', scrubsRouter);
 app.use(
   (error: CustomError, _req: Request, resp: Response, _next: NextFunction) => {
     const status = error.statusCode || 500;

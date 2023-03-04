@@ -17,4 +17,4 @@ En la creación del servidor vamos a utilizar las capas de App -> Router -> Cont
 
 ## Dudas
 
-- Gestion de errores: No entiendo dónde tengo que controlar que salte error con express, ya que los propios métodos los dan
+- Gestion de errores: No entiendo dónde tengo que controlar que salte error con express, ya que los propios métodos los dan-

@@ -1,11 +1,23 @@
 import { Request, Response } from 'express';
 import { ScrubsFileRepo } from '../repository/scrubs.file.repo';
+import { ScrubsMongoRepo } from '../repository/scrubs.mongo.repo';
+import { UsersMongoRepo } from '../repository/users.mongo.repo';
 import { ScrubsController } from './scrubs.controller';
 
 describe('Given the scrubsController', () => {
-  const mockRepo: ScrubsFileRepo = {
+  const mockRepo: ScrubsMongoRepo = {
     query: jest.fn(),
     queryById: jest.fn(),
+    search: jest.fn(),
+    update: jest.fn(),
+    create: jest.fn(),
+    destroy: jest.fn(),
+  };
+
+  const mockRepoUser: UsersMongoRepo = {
+    query: jest.fn(),
+    queryById: jest.fn(),
+    search: jest.fn(),
     update: jest.fn(),
     create: jest.fn(),
     destroy: jest.fn(),
@@ -22,7 +34,7 @@ describe('Given the scrubsController', () => {
   } as unknown as Response;
 
   const next = jest.fn();
-  const controller = new ScrubsController(mockRepo);
+  const controller = new ScrubsController(mockRepo, mockRepoUser);
 
   describe('When getAll is used', () => {
     test('Then it should return the response', async () => {

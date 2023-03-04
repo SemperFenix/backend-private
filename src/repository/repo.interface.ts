@@ -3,6 +3,7 @@ export interface Repo<T> {
   // Read normalmente se llama query
   query(): Promise<T[]>;
   queryById(_id: string): Promise<T>;
+  search(query: { key: string; value: unknown }[]): Promise<T[]>;
   create(_info: Partial<T>): Promise<T>;
   update(_info: T): Promise<T>;
   // Delete puede llamarse erase o destroy

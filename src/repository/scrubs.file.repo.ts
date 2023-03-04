@@ -19,6 +19,10 @@ export class ScrubsFileRepo implements Repo<Scrub> {
     return finalData;
   }
 
+  async search(query: { key: string; value: unknown }[]) {
+    return [];
+  }
+
   async create(info: Partial<Scrub>): Promise<Scrub> {
     const data = await fs.readFile(file, 'utf-8');
     const parsedData: Scrub[] = JSON.parse(data);
